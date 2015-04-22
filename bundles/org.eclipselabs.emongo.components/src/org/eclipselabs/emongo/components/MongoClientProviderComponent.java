@@ -191,16 +191,6 @@ public class MongoClientProviderComponent extends AbstractComponent implements M
 		if (socketKeepAlive != null)
 			optionsBuilder.socketKeepAlive(socketKeepAlive);
 
-		Boolean autoConnectRetry = (Boolean) properties.get(PROP_AUTO_CONNECT_RETRY);
-
-		if (autoConnectRetry != null)
-			optionsBuilder.autoConnectRetry(autoConnectRetry);
-
-		Long maxAutoConnectRetryTime = (Long) properties.get(PROP_MAX_AUTO_CONNECT_RETRY_TIME);
-
-		if (maxAutoConnectRetryTime != null)
-			optionsBuilder.maxAutoConnectRetryTime(maxAutoConnectRetryTime);
-
 		Boolean continueOnInsertError = (Boolean) properties.get(PROP_CONTINUE_ON_INSERT_ERROR);
 
 		if (continueOnInsertError == null)
@@ -226,7 +216,7 @@ public class MongoClientProviderComponent extends AbstractComponent implements M
 		if (j == null)
 			j = Boolean.FALSE;
 
-		WriteConcern writeConcern = new WriteConcern(w, wtimeout, fsync, j, continueOnInsertError);
+		WriteConcern writeConcern = new WriteConcern(w, wtimeout, fsync, j);
 		optionsBuilder.writeConcern(writeConcern);
 
 		return optionsBuilder.build();

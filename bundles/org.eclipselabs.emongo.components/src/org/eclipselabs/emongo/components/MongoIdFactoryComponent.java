@@ -69,7 +69,7 @@ public class MongoIdFactoryComponent extends AbstractComponent implements MongoI
 			initialId.put(LAST_ID, Long.valueOf(0));
 			collection.insert(initialId);
 
-			if (!db.getLastError().ok())
+			if (!db.command("{ getLastError: 1 }").ok())
 				handleIllegalConfiguration("Could not initialize the id counter for collection: '" + collection.getName() + "'");
 		}
 	}
@@ -87,8 +87,7 @@ public class MongoIdFactoryComponent extends AbstractComponent implements MongoI
 			return null;
 
 		DBObject result = collection.findAndModify(query, null, null, false, update, true, false);
-
-		if (!collection.getDB().getLastError().ok())
+		if (!collection.getDB().command("{ getLastError: 1 }").ok())
 			throw new IOException("Failed to update the id counter for collection: '" + collection.getName() + "'");
 
 		return result.get(LAST_ID).toString();

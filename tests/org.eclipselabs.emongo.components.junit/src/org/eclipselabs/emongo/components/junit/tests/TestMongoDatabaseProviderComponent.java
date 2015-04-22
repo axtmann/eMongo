@@ -16,6 +16,7 @@ import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
 import java.util.HashMap;
@@ -116,7 +117,7 @@ public class TestMongoDatabaseProviderComponent
 		mongoDatabaseProviderComponent.activate(properties);
 
 		assertThat(mongoDatabaseProviderComponent.getDB(), is(sameInstance(db)));
-		verify(mongoClientProvider).getMongoClient();
+		verify(mongoClientProvider, times(2)).getMongoClient();
 		verify(mongoClient).getDB(databaseName);
 	}
 }

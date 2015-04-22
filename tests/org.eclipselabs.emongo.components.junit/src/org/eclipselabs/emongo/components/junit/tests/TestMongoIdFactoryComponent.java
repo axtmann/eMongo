@@ -71,7 +71,7 @@ public class TestMongoIdFactoryComponent
 		when(db.getCollection("elements")).thenReturn(collection);
 		when(collection.findOne(any(DBObject.class))).thenReturn(null);
 		when(collection.getDB()).thenReturn(db);
-		when(db.getLastError()).thenReturn(commandResult);
+		when(db.command("{ getLastError: 1 }")).thenReturn(commandResult);
 		when(commandResult.ok()).thenReturn(true);
 	}
 

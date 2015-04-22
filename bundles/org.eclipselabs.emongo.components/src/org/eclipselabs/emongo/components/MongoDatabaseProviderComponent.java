@@ -10,6 +10,7 @@ import org.eclipselabs.emongo.MongoClientProvider;
 import org.eclipselabs.emongo.MongoDatabaseProvider;
 
 import com.mongodb.DB;
+import com.mongodb.MongoCredential;
 
 /**
  * @author bhunt
@@ -69,8 +70,10 @@ public class MongoDatabaseProviderComponent extends AbstractComponent implements
 	{
 		DB db = mongoClientProvider.getMongoClient().getDB(databaseName);
 
-		if (user != null && !user.isEmpty())
-			db.authenticate(user, password.toCharArray());
+		if (user != null && !user.isEmpty() && password != null) {
+			MongoCredential credential = MongoCredential.createCredential(user, databaseName, password.toCharArray());
+			mongoClientProvider.getMongoClient().getCredentialsList().add(credential);
+		}
 
 		return db;
 	}
